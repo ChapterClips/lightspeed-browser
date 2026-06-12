@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'">
+  <title>About Lightspeed Browser</title><link rel="stylesheet" href="page.css">
+</head>
+<body data-page="about">
+  <main class="page narrow">
+    <section class="card">
+      <div class="logo-lockup">
+        <img src="../assets/logo.svg" alt="Lightspeed Browser logo">
+        <div><div class="eyebrow">About</div><h1>Lightspeed Browser</h1></div>
+      </div>
+      <p class="lead">A focused desktop browser with a fast, modern interface.</p>
+      <p class="notice">
+        Lightspeed Browser is built with Electron. Electron embeds Chromium and Node.js; this project does not
+        fork or compile Chromium source directly.
+      </p>
+      <dl class="version-grid">
+        <dt>Lightspeed</dt><dd id="app-version">-</dd>
+        <dt>Electron</dt><dd id="electron-version">-</dd>
+        <dt>Chromium engine</dt><dd id="chromium-version">-</dd>
+        <dt>Node.js</dt><dd id="node-version">-</dd>
+      </dl>
+    </section>
+  </main>
+  <script src="page.js"></script>
+</body>
+</html>

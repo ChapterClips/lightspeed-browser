@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'">
+  <title>New Tab</title>
+  <link rel="stylesheet" href="page.css">
+</head>
+<body data-page="newtab">
+  <main class="page">
+    <div class="logo-lockup">
+      <img src="../assets/logo.svg" alt="">
+      <div>
+        <div class="eyebrow">Lightspeed Browser</div>
+        <h1>Where to next?</h1>
+        <p class="lead">Search the web or enter an address.</p>
+      </div>
+    </div>
+    <form id="search-form" class="search">
+      <input id="search-input" autofocus autocomplete="off" placeholder="Search or enter address">
+      <button class="primary" type="submit">Go</button>
+    </form>
+    <section class="quick-links">
+      <button class="quick-link" data-navigate="lightspeed://bookmarks">
+        <strong>Bookmarks</strong><span>Your saved pages</span>
+      </button>
+      <button class="quick-link" data-navigate="lightspeed://history">
+        <strong>History</strong><span>Recently visited</span>
+      </button>
+      <button class="quick-link" data-navigate="lightspeed://downloads">
+        <strong>Downloads</strong><span>Files from the web</span>
+      </button>
+      <button class="quick-link" data-navigate="lightspeed://settings">
+        <strong>Settings</strong><span>Make it yours</span>
+      </button>
+    </section>
+    <div class="toolbar"><h2>Recent</h2></div>
+    <section id="recent-list" class="list"></section>
+  </main>
+  <script src="page.js"></script>
+</body>
+</html>

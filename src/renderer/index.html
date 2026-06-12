@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'">
+  <title>Lightspeed Browser</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header id="browser-chrome">
+    <div id="tab-strip">
+      <div id="tabs" role="tablist"></div>
+      <button id="new-tab" class="icon-button" title="New tab" aria-label="New tab">+</button>
+      <div class="window-title">
+        <img src="../assets/logo.svg" alt="">
+        <span>Lightspeed</span>
+      </div>
+    </div>
+    <div id="toolbar">
+      <button id="back" class="icon-button" title="Back" aria-label="Back">←</button>
+      <button id="forward" class="icon-button" title="Forward" aria-label="Forward">→</button>
+      <button id="reload" class="icon-button" title="Reload" aria-label="Reload">↻</button>
+      <button id="home" class="icon-button" title="Home" aria-label="Home">⌂</button>
+      <form id="address-form">
+        <span id="security-indicator" title="Connection information">●</span>
+        <input id="address" type="text" autocomplete="off" spellcheck="false"
+               aria-label="Address and search bar">
+        <button id="bookmark" type="button" title="Bookmark this page" aria-label="Bookmark">☆</button>
+      </form>
+      <button id="profile" class="toolbar-button" title="Profiles">Default</button>
+      <button id="menu" class="icon-button" title="Menu" aria-label="Menu">⋮</button>
+    </div>
+  </header>
+
+  <div id="app-menu" class="popover" hidden>
+    <button data-page="lightspeed://newtab">New tab <kbd>Ctrl+T</kbd></button>
+    <button data-page="lightspeed://bookmarks">Bookmarks</button>
+    <button data-page="lightspeed://history">History <kbd>Ctrl+H</kbd></button>
+    <button data-page="lightspeed://downloads">Downloads <kbd>Ctrl+J</kbd></button>
+    <hr>
+    <button id="extensions">Load unpacked extension</button>
+    <button data-page="lightspeed://settings">Settings</button>
+    <button data-page="lightspeed://about">About Lightspeed Browser</button>
+  </div>
+
+  <div id="profile-menu" class="popover" hidden>
+    <div id="profile-list"></div>
+    <hr>
+    <button id="create-profile">Add profile</button>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

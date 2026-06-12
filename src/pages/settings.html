@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'">
+  <title>Settings</title><link rel="stylesheet" href="page.css">
+</head>
+<body data-page="settings">
+  <main class="page narrow">
+    <div class="eyebrow">Lightspeed</div><h1>Settings</h1>
+    <section class="settings-grid">
+      <div class="card setting">
+        <label for="theme">Appearance</label>
+        <select id="theme">
+          <option value="system">Use system theme</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+      <div class="card setting">
+        <label for="homepage">Homepage</label>
+        <div class="inline">
+          <input id="homepage" type="text">
+          <button id="save-homepage" class="primary">Save</button>
+        </div>
+      </div>
+      <div class="card setting">
+        <label for="profiles">Profiles</label>
+        <div class="inline">
+          <select id="profiles"></select>
+          <button id="add-profile" class="secondary">Add profile</button>
+        </div>
+      </div>
+      <div class="card setting">
+        <label>Extensions</label>
+        <p class="lead">Load a compatible unpacked Chrome extension from a folder.</p>
+        <button id="load-extension" class="secondary">Load unpacked extension</button>
+      </div>
+      <div class="notice">
+        Electron supports a useful subset of Chrome extension APIs, not the complete Chrome Web Store platform.
+      </div>
+    </section>
+  </main>
+  <script src="page.js"></script>
+</body>
+</html>
