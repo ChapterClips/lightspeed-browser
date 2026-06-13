@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const f='package.json';const j=require\\('./'+f\\);j.version='0.1.1';require\\('fs'\\).writeFileSync\\(f,JSON.stringify\\(j,null,2\\)+'\\\\n'\\);console.log\\('version ->',j.version\\)\")",
+      "Bash(git add *)",
+      "Bash(git commit -q -m ' *)"
+    ]
+  }
+}
