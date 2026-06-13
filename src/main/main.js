@@ -272,22 +272,13 @@ function configureSession(ses) {
   if (ses.__lightspeedConfigured) return;
   ses.__lightspeedConfigured = true;
 
-  ses.setPermissionRequestHandler((webContents, permission, callback, details) => {
-    const safePermissions = new Set(['clipboard-sanitized-write', 'fullscreen', 'pointerLock']);
-    if (safePermissions.has(permission)) {
-      callback(true);
-      return;
-    }
-    const parent = BrowserWindow.fromWebContents(webContents) || mainWindow;
-    dialog.showMessageBox(parent, {
-      type: 'question',
-      title: 'Site permission',
-      message: `${details.requestingUrl || webContents.getURL()} requests ${permission}.`,
-      buttons: ['Deny', 'Allow'],
-      defaultId: 0,
-      cancelId: 0
-    }).then(({ response }) => callback(response === 1));
+  // Auto-allow all site permission requests (no prompts).
+  ses.setPermissionRequestHandler((_webContents, _permission, callback) => {
+    callback(true);
   });
+  // Mirror the same policy for synchronous permission checks so APIs that
+  // query permission state (e.g. navigator.permissions, media devices) agree.
+  ses.setPermissionCheckHandler(() => true);
 
   ses.on('will-download', (_event, item) => {
     const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
