@@ -1,11 +1,14 @@
 {
   "name": "lightspeed-browser",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A lightweight multi-tab desktop browser built with Electron.",
   "main": "src/main/main.js",
   "author": "Lightspeed Browser",
   "license": "MIT",
   "private": true,
+  "dependencies": {
+    "electron-updater": "6.6.2"
+  },
   "scripts": {
     "start": "electron .",
     "dev": "electron .",
@@ -20,6 +23,13 @@
   "build": {
     "appId": "com.lightspeed.browser",
     "productName": "Lightspeed Browser",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ChapterClips",
+        "repo": "lightspeed-browser"
+      }
+    ],
     "artifactName": "Lightspeed-Browser-${version}-${arch}.${ext}",
     "directories": {
       "output": "dist",

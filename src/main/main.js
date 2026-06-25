@@ -490,6 +490,42 @@ async function createWindow() {
 
 app.setName('Lightspeed Browser');
 
+function initAutoUpdate() {
+  // The updater only works in a packaged build; skip it in dev.
+  if (!app.isPackaged) return;
+  let autoUpdater;
+  try {
+    ({ autoUpdater } = require('electron-updater'));
+  } catch (error) {
+    console.error('electron-updater is not available:', error);
+    return;
+  }
+
+  autoUpdater.autoDownload = true;
+  autoUpdater.on('error', (error) => {
+    console.error('Auto-update error:', error);
+  });
+  autoUpdater.on('update-downloaded', (info) => {
+    dialog
+      .showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'Update ready',
+        message: `Lightspeed Browser ${info.version} is ready to install.`,
+        detail: 'Restart now to finish updating, or it will install when you next quit.',
+        buttons: ['Restart now', 'Later'],
+        defaultId: 0,
+        cancelId: 1
+      })
+      .then(({ response }) => {
+        if (response === 0) autoUpdater.quitAndInstall();
+      });
+  });
+
+  autoUpdater.checkForUpdatesAndNotify().catch((error) => {
+    console.error('Update check failed:', error);
+  });
+}
+
 app.whenReady().then(async () => {
   store = new Store(app.getPath('userData'));
   nativeTheme.themeSource = store.data.settings.theme;
@@ -497,6 +533,7 @@ app.whenReady().then(async () => {
   await loadSavedExtensions(profileSession());
   registerIpc();
   await createWindow();
+  initAutoUpdate();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
