@@ -5,6 +5,34 @@ function navigate(url) {
   window.lightspeedPage.navigate(url);
 }
 
+// Curated backgrounds shipped with the browser. The key matches the file
+// name in assets/backgrounds and the whitelist in the main process.
+const BACKGROUNDS = [
+  { key: 'fjord', label: 'Fjord' },
+  { key: 'highlands', label: 'Highlands' },
+  { key: 'valley', label: 'Valley' },
+  { key: 'waterfall', label: 'Waterfall' },
+  { key: 'basecamp', label: 'Base Camp' },
+  { key: 'lake', label: 'Still Lake' },
+  { key: 'storm', label: 'Storm' },
+  { key: 'peaks', label: 'Peaks' }
+];
+
+function backgroundUrl(key) {
+  return `../assets/backgrounds/${key}.jpg`;
+}
+
+function applyBackground(key) {
+  const valid = BACKGROUNDS.some((bg) => bg.key === key);
+  if (valid) {
+    document.body.style.backgroundImage = `url("${backgroundUrl(key)}")`;
+    document.body.classList.add('has-background');
+  } else {
+    document.body.style.backgroundImage = '';
+    document.body.classList.remove('has-background');
+  }
+}
+
 function formatDate(value) {
   if (!value) return '';
   return new Intl.DateTimeFormat(undefined, {
@@ -45,7 +73,11 @@ function createItem(titleText, metaText, actions = []) {
   return item;
 }
 
+let currentBackground = null;
+
 function renderNewTab(data) {
+  currentBackground = data.settings?.background ?? null;
+  applyBackground(currentBackground);
   const recent = $('#recent-list');
   const entries = data.history.slice(0, 6);
   if (!entries.length) {
@@ -178,6 +210,61 @@ $('#add-profile')?.addEventListener('click', async () => {
 });
 
 $('#load-extension')?.addEventListener('click', () => window.lightspeedPage.loadExtension());
+
+function buildBackgroundGrid() {
+  const grid = $('#bg-grid');
+  if (!grid) return;
+
+  async function choose(key) {
+    currentBackground = await window.lightspeedPage.setBackground(key);
+    applyBackground(currentBackground);
+    buildBackgroundGrid();
+  }
+
+  const tiles = [];
+
+  const none = document.createElement('button');
+  none.type = 'button';
+  none.className = 'bg-tile bg-tile-none' + (currentBackground ? '' : ' active');
+  none.textContent = 'None';
+  none.addEventListener('click', () => choose(null));
+  tiles.push(none);
+
+  for (const bg of BACKGROUNDS) {
+    const tile = document.createElement('button');
+    tile.type = 'button';
+    tile.className = 'bg-tile' + (currentBackground === bg.key ? ' active' : '');
+    tile.style.backgroundImage = `url("${backgroundUrl(bg.key)}")`;
+    tile.title = bg.label;
+    const caption = document.createElement('span');
+    caption.textContent = bg.label;
+    tile.append(caption);
+    tile.addEventListener('click', () => choose(bg.key));
+    tiles.push(tile);
+  }
+
+  grid.replaceChildren(...tiles);
+}
+
+const bgButton = $('#bg-button');
+if (bgButton) {
+  const picker = $('#bg-picker');
+  const openPicker = () => {
+    buildBackgroundGrid();
+    picker.hidden = false;
+  };
+  const closePicker = () => {
+    picker.hidden = true;
+  };
+  bgButton.addEventListener('click', openPicker);
+  $('#bg-close')?.addEventListener('click', closePicker);
+  picker.addEventListener('click', (event) => {
+    if (event.target === picker) closePicker();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !picker.hidden) closePicker();
+  });
+}
 
 window.lightspeedPage.onData(render);
 window.lightspeedPage.requestData();

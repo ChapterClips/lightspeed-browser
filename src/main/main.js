@@ -431,6 +431,17 @@ function registerIpc() {
     store.save();
     sendState();
   });
+  ipcMain.handle('browser:set-background', (_event, background) => {
+    // Only accept one of the curated backgrounds we ship, or null to clear.
+    const allowed = new Set([
+      'fjord', 'highlands', 'valley', 'waterfall',
+      'basecamp', 'lake', 'storm', 'peaks'
+    ]);
+    store.data.settings.background = allowed.has(background) ? background : null;
+    store.save();
+    sendState();
+    return store.data.settings.background;
+  });
   ipcMain.handle('browser:set-homepage', (_event, homepage) => {
     store.data.settings.homepage = normalizeInput(homepage);
     store.save();

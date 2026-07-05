@@ -5,7 +5,8 @@ const DEFAULT_DATA = {
   settings: {
     theme: 'system',
     homepage: 'lightspeed://newtab',
-    searchEngine: 'https://www.google.com/search?q=%s'
+    searchEngine: 'https://www.google.com/search?q=%s',
+    background: null
   },
   profiles: [{ id: 'default', name: 'Default' }],
   activeProfile: 'default',
