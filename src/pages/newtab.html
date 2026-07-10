@@ -36,6 +36,23 @@
         <strong>Settings</strong><span>Make it yours</span>
       </button>
     </section>
+    <section class="music card" aria-label="Music player">
+      <div class="music-head">
+        <div class="music-now">
+          <div class="eyebrow">Music</div>
+          <div id="music-title">Pick a track to play</div>
+        </div>
+        <div class="music-controls">
+          <button id="music-prev" class="music-btn" title="Previous" aria-label="Previous"></button>
+          <button id="music-play" class="music-btn play" title="Play" aria-label="Play"></button>
+          <button id="music-next" class="music-btn" title="Next" aria-label="Next"></button>
+          <input id="music-volume" class="music-volume" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="Volume">
+        </div>
+      </div>
+      <div id="music-list" class="music-list"></div>
+      <audio id="music-audio"></audio>
+    </section>
+
     <div class="toolbar"><h2>Recent</h2></div>
     <section id="recent-list" class="list"></section>
   </main>

@@ -156,6 +156,62 @@ h2 { margin-top: 0; }
 .version-grid dt { color: var(--muted); }
 .version-grid dd { margin: 0; font-family: ui-monospace, monospace; }
 .credit { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+
+/* ---- New-tab music player ---- */
+.music { margin-top: 28px; }
+.music-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.music-now { min-width: 0; }
+#music-title { font-weight: 650; font-size: 16px; margin-top: 2px; }
+.music-controls { display: flex; align-items: center; gap: 8px; }
+.music-btn {
+  border: 0;
+  background: var(--surface-solid);
+  color: var(--text);
+  border: 1px solid var(--border);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.music-btn:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.music-btn.play {
+  width: 48px;
+  height: 48px;
+  border: 0;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+}
+.music-volume {
+  width: 96px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.music-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+.music-track {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background .12s ease, border-color .12s ease, color .12s ease;
+}
+.music-track:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.music-track.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .music-volume { display: none; }
+}
 .notice { padding: 14px 16px; border-left: 4px solid var(--accent-2); background: color-mix(in srgb, var(--accent-2) 9%, transparent); border-radius: 8px; }
 
 @media (max-width: 700px) {

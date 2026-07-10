@@ -211,6 +211,75 @@ $('#add-profile')?.addEventListener('click', async () => {
 
 $('#load-extension')?.addEventListener('click', () => window.lightspeedPage.loadExtension());
 
+// ---- New-tab music player (bundled royalty-free tracks) ----
+const MUSIC = [
+  { key: 'track1', name: 'Nightfall' },
+  { key: 'track2', name: 'Momentum' },
+  { key: 'track3', name: 'Skyline' },
+  { key: 'track4', name: 'Afterglow' },
+  { key: 'track5', name: 'Voyager' }
+];
+const MUSIC_ICONS = {
+  play: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5.5v13l11-6.5z"/></svg>',
+  pause: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="5.5" width="4" height="13" rx="1"/><rect x="13.5" y="5.5" width="4" height="13" rx="1"/></svg>',
+  prev: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5.5h2.2v13H7zM19 5.5v13l-9-6.5z"/></svg>',
+  next: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14.8 5.5H17v13h-2.2zM5 5.5v13l9-6.5z"/></svg>'
+};
+
+function setupMusicPlayer() {
+  const audio = $('#music-audio');
+  if (!audio) return;
+  const listEl = $('#music-list');
+  const titleEl = $('#music-title');
+  const playBtn = $('#music-play');
+  let current = -1;
+
+  $('#music-prev').innerHTML = MUSIC_ICONS.prev;
+  $('#music-next').innerHTML = MUSIC_ICONS.next;
+  playBtn.innerHTML = MUSIC_ICONS.play;
+
+  function refresh() {
+    playBtn.innerHTML = audio.paused ? MUSIC_ICONS.play : MUSIC_ICONS.pause;
+    playBtn.title = audio.paused ? 'Play' : 'Pause';
+    listEl.querySelectorAll('.music-track').forEach((el, i) => {
+      el.classList.toggle('active', i === current);
+    });
+    titleEl.textContent = current >= 0 ? MUSIC[current].name : 'Pick a track to play';
+  }
+
+  function load(index, play = true) {
+    current = (index + MUSIC.length) % MUSIC.length;
+    audio.src = `../assets/music/${MUSIC[current].key}.mp3`;
+    if (play) audio.play().catch(() => {});
+    refresh();
+  }
+
+  listEl.replaceChildren(...MUSIC.map((track, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'music-track';
+    btn.type = 'button';
+    btn.textContent = track.name;
+    btn.addEventListener('click', () => {
+      if (i === current) audio.paused ? audio.play() : audio.pause();
+      else load(i);
+    });
+    return btn;
+  }));
+
+  playBtn.addEventListener('click', () => {
+    if (current < 0) load(0);
+    else if (audio.paused) audio.play(); else audio.pause();
+  });
+  $('#music-prev').addEventListener('click', () => load(current < 0 ? 0 : current - 1));
+  $('#music-next').addEventListener('click', () => load(current < 0 ? 0 : current + 1));
+  $('#music-volume').addEventListener('input', (e) => { audio.volume = Number(e.target.value); });
+  audio.volume = Number($('#music-volume').value);
+  audio.addEventListener('play', refresh);
+  audio.addEventListener('pause', refresh);
+  audio.addEventListener('ended', () => load(current + 1));
+  refresh();
+}
+
 function buildBackgroundGrid() {
   const grid = $('#bg-grid');
   if (!grid) return;
@@ -265,6 +334,8 @@ if (bgButton) {
     if (event.key === 'Escape' && !picker.hidden) closePicker();
   });
 }
+
+setupMusicPlayer();
 
 window.lightspeedPage.onData(render);
 window.lightspeedPage.requestData();

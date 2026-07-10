@@ -1,6 +1,6 @@
 {
   "name": "lightspeed-browser",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A lightweight multi-tab desktop browser built with Electron.",
   "main": "src/main/main.js",
   "author": "Afnan Tahir",
