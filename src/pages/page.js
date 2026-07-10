@@ -151,6 +151,7 @@ function renderDownloads(data) {
 function renderSettings(data) {
   $('#theme').value = data.settings.theme;
   $('#homepage').value = data.settings.homepage;
+  $('#adblock').checked = data.settings.adblock !== false;
   const profiles = $('#profiles');
   profiles.replaceChildren();
   for (const profile of data.profiles) {
@@ -198,6 +199,10 @@ $('#theme')?.addEventListener('change', (event) => {
 
 $('#save-homepage')?.addEventListener('click', async () => {
   $('#homepage').value = await window.lightspeedPage.setHomepage($('#homepage').value);
+});
+
+$('#adblock')?.addEventListener('change', (event) => {
+  window.lightspeedPage.setAdblock(event.target.checked);
 });
 
 $('#profiles')?.addEventListener('change', (event) => {
