@@ -1,13 +1,12 @@
 {
   "name": "lightspeed-browser",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A lightweight multi-tab desktop browser built with Electron.",
   "main": "src/main/main.js",
   "author": "Lightspeed Browser",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@ghostery/adblocker-electron": "^2.18.1",
     "electron-updater": "6.6.2"
   },
   "scripts": {

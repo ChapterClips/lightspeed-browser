@@ -13,7 +13,6 @@ contextBridge.exposeInMainWorld('lightspeedPage', {
   setTheme: (theme) => ipcRenderer.invoke('browser:set-theme', theme),
   setHomepage: (homepage) => ipcRenderer.invoke('browser:set-homepage', homepage),
   setBackground: (background) => ipcRenderer.invoke('browser:set-background', background),
-  setAdblock: (enabled) => ipcRenderer.invoke('browser:set-adblock', enabled),
   createProfile: (name) => ipcRenderer.invoke('browser:create-profile', name),
   switchProfile: (id) => ipcRenderer.invoke('browser:switch-profile', id),
   loadExtension: () => ipcRenderer.invoke('browser:load-extension'),

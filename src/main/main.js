@@ -22,7 +22,6 @@ let store;
 let tabs = [];
 let activeTabId = null;
 let nextTabId = 1;
-let adBlocker = null;
 
 function currentProfile() {
   return store.data.profiles.find((profile) => profile.id === store.data.activeProfile)
@@ -281,12 +280,6 @@ function configureSession(ses) {
   // query permission state (e.g. navigator.permissions, media devices) agree.
   ses.setPermissionCheckHandler(() => true);
 
-  // If the ad blocker engine is already built (e.g. after switching profiles),
-  // apply it to this freshly configured session.
-  if (adBlocker && store.data.settings.adblock) {
-    adBlocker.enableBlockingInSession(ses);
-  }
-
   ses.on('will-download', (_event, item) => {
     const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
     const entry = {
@@ -454,17 +447,6 @@ function registerIpc() {
     store.save();
     return store.data.settings.homepage;
   });
-  ipcMain.handle('browser:set-adblock', (_event, enabled) => {
-    store.data.settings.adblock = !!enabled;
-    store.save();
-    if (adBlocker) {
-      const ses = profileSession();
-      if (store.data.settings.adblock) adBlocker.enableBlockingInSession(ses);
-      else adBlocker.disableBlockingInSession(ses);
-    }
-    sendState();
-    return store.data.settings.adblock;
-  });
   ipcMain.handle('browser:clear-history', () => {
     store.data.history = [];
     store.save();
@@ -519,26 +501,6 @@ async function createWindow() {
 
 app.setName('Lightspeed Browser');
 
-async function setupAdBlocker() {
-  try {
-    const { ElectronBlocker } = require('@ghostery/adblocker-electron');
-    const fsp = require('node:fs/promises');
-    const cachePath = path.join(app.getPath('userData'), 'adblocker-engine.bin');
-    // Build the engine from EasyList/EasyPrivacy, caching the serialized
-    // result to disk so subsequent launches are instant and work offline.
-    adBlocker = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch, {
-      path: cachePath,
-      read: fsp.readFile,
-      write: fsp.writeFile
-    });
-    if (store.data.settings.adblock) {
-      adBlocker.enableBlockingInSession(profileSession());
-    }
-  } catch (error) {
-    console.error('Ad blocker setup failed:', error);
-  }
-}
-
 function initAutoUpdate() {
   // The updater only works in a packaged build; skip it in dev.
   if (!app.isPackaged) return;
@@ -582,7 +544,6 @@ app.whenReady().then(async () => {
   await loadSavedExtensions(profileSession());
   registerIpc();
   await createWindow();
-  setupAdBlocker();
   initAutoUpdate();
 
   app.on('activate', () => {
