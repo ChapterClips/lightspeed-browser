@@ -12,25 +12,38 @@
   <header id="browser-chrome">
     <div id="tab-strip">
       <div id="tabs" role="tablist"></div>
-      <button id="new-tab" class="icon-button" title="New tab" aria-label="New tab">+</button>
+      <button id="new-tab" class="icon-button" title="New tab" aria-label="New tab">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
       <div class="window-title">
         <img src="../assets/logo.svg" alt="">
         <span>Lightspeed</span>
       </div>
     </div>
     <div id="toolbar">
-      <button id="back" class="icon-button" title="Back" aria-label="Back">←</button>
-      <button id="forward" class="icon-button" title="Forward" aria-label="Forward">→</button>
-      <button id="reload" class="icon-button" title="Reload" aria-label="Reload">↻</button>
-      <button id="home" class="icon-button" title="Home" aria-label="Home">⌂</button>
+      <button id="back" class="icon-button" title="Back" aria-label="Back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      </button>
+      <button id="forward" class="icon-button" title="Forward" aria-label="Forward">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button id="reload" class="icon-button" title="Reload" aria-label="Reload"></button>
+      <button id="home" class="icon-button" title="Home" aria-label="Home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M9.5 21v-6h5v6"/></svg>
+      </button>
       <form id="address-form">
-        <span id="security-indicator" title="Connection information">●</span>
+        <span id="security-indicator" title="Connection information">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </span>
         <input id="address" type="text" autocomplete="off" spellcheck="false"
+               placeholder="Search or enter address"
                aria-label="Address and search bar">
-        <button id="bookmark" type="button" title="Bookmark this page" aria-label="Bookmark">☆</button>
+        <button id="bookmark" type="button" title="Bookmark this page" aria-label="Bookmark"></button>
       </form>
       <button id="profile" class="toolbar-button" title="Profiles">Default</button>
-      <button id="menu" class="icon-button" title="Menu" aria-label="Menu">⋮</button>
+      <button id="menu" class="icon-button" title="Menu" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>
+      </button>
     </div>
   </header>
 
