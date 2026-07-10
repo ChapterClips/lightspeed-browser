@@ -1,6 +1,6 @@
 {
   "name": "lightspeed-browser",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A lightweight multi-tab desktop browser built with Electron.",
   "main": "src/main/main.js",
   "author": "Afnan Tahir",
@@ -57,7 +57,8 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Lightspeed Browser",
-      "uninstallDisplayName": "Lightspeed Browser"
+      "uninstallDisplayName": "Lightspeed Browser",
+      "include": "build/installer.nsh"
     },
     "portable": {
       "artifactName": "Lightspeed-Browser-Portable-${version}-${arch}.${ext}"

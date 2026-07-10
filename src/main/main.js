@@ -537,19 +537,56 @@ function initAutoUpdate() {
   });
 }
 
-app.whenReady().then(async () => {
-  store = new Store(app.getPath('userData'));
-  nativeTheme.themeSource = store.data.settings.theme;
-  configureSession(profileSession());
-  await loadSavedExtensions(profileSession());
-  registerIpc();
-  await createWindow();
-  initAutoUpdate();
+// Pull the first http(s) URL out of a command line (Windows passes the
+// clicked link as an argument when Lightspeed is the default browser).
+function urlFromArgv(argv) {
+  for (const arg of argv || []) {
+    if (/^https?:\/\//i.test(arg)) return arg;
+  }
+  return null;
+}
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+function openExternalUrl(url) {
+  if (!mainWindow) return;
+  createTab(url, true);
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.focus();
+}
+
+// Single-instance: a second launch (e.g. Windows opening a link) hands its
+// command line to the running instance instead of starting a new one.
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+} else {
+  app.on('second-instance', (_event, argv) => {
+    const url = urlFromArgv(argv);
+    if (url) {
+      openExternalUrl(url);
+    } else if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
   });
-});
+
+  app.whenReady().then(async () => {
+    store = new Store(app.getPath('userData'));
+    nativeTheme.themeSource = store.data.settings.theme;
+    configureSession(profileSession());
+    await loadSavedExtensions(profileSession());
+    registerIpc();
+    await createWindow();
+
+    // If launched to open a link (default-browser click), show it.
+    const startupUrl = urlFromArgv(process.argv);
+    if (startupUrl) createTab(startupUrl, true);
+
+    initAutoUpdate();
+
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    });
+  });
+}
 
 app.on('web-contents-created', (_event, contents) => {
   contents.on('will-attach-webview', (event) => event.preventDefault());
